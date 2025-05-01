@@ -51,12 +51,14 @@ const SignIn = async (req, res) => {
     try {
         const { email, senha } = req.body;
 
-        db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, senha], (err, user) => {
+        db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
             if (err) {
                 return res.status(500).send({ error: err.message });
             }
 
-            if (!user) {
+            const valid = await bcrypt.compare(senha, user.password);
+
+            if (!user || !valid) {
                 return res.status(404).send("Login inválido");
             }
 
@@ -74,11 +76,11 @@ const SignIn = async (req, res) => {
     }
 };
 
-
 const SignUp = async (req, res) => {
     try {
         const { email, senha } = req.body;
-        db.run(`INSERT INTO users (email, password) VALUES (?, ?)`, [email, senha], function (err) {
+        const password = await bcrypt.hash(senha, 10);
+        db.run(`INSERT INTO users (email, password) VALUES (?, ?)`, [email, password], function (err) {
             if (err) return res.status(400).json({ error: err.message });
             res.status(201).json({ message: 'Usuário criado', id: this.lastID });
         });
