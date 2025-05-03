@@ -1,5 +1,6 @@
 const express = require('express');
 const { GetUsers, SignUp, SignIn, Delete, ForgotPassword, Verify, NewPassword } = require('./users');
+const verifyToken = require('./middleware');
 const app = express();
 const port = 3000;
 
@@ -15,7 +16,7 @@ app.post('/signup', (req, res) => {
 
 app.put('/signin', (req,res) => SignIn(req, res));
 
-app.delete('/delete', (req, res) => Delete(req, res));
+app.delete('/delete', verifyToken, (req, res) => Delete(req, res)); 
 
 app.put('/forgot/password', (req, res)=> ForgotPassword(req, res));
 
