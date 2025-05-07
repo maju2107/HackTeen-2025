@@ -16,10 +16,12 @@
     "express": "^5.1.0",
     "gtts": "^0.2.1",
     "jsonwebtoken": "^9.0.2",
+    "node-summarizer": "^1.0.7",
     "nodemailer": "^6.10.1",
     "nodemon": "^3.1.10",
     "puppeteer": "^24.8.0",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "text-summarization": "^1.0.4"
   }
 }

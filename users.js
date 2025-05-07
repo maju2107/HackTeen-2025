@@ -4,37 +4,37 @@ const bcrypt = require('bcryptjs');
 const NodeMailer = require("nodemailer");
 const db = require('./db');
 
-// async function sendEmailWithPassword(email, subject, text) {
-//     try {
-//         const transporter = NodeMailer.createTransport({
-//             host: "smtp.gmail.com",
-//             port: 587,
-//             secure: false, // Necessário para TLS
-//             auth: {
-//                 user: process.env.EMAIL_USER,
-//                 pass: process.env.EMAIL_PASS,
-//             },
-//             tls: {
-//                 rejectUnauthorized: false, // Ignorar certificados autoassinados
-//             },
-//         });
+async function sendEmailWithPassword(email, subject, text) {
+    try {
+        const transporter = NodeMailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // Necessário para TLS
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+            tls: {
+                rejectUnauthorized: false, 
+            },
+        });
 
-//         await transporter.verify();
-//         console.log("Servidor de e-mail pronto para enviar mensagens!");
+        await transporter.verify();
+        console.log("Servidor de e-mail pronto para enviar mensagens!");
 
-//         const info = await transporter.sendMail({
-//             from: process.env.EMAIL_USER,
-//             to: email,
-//             subject: subject,
-//             text: text,
-//         });
+        const info = await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: subject,
+            text: text,
+        });
 
-//         console.log("E-mail enviado com sucesso:", info.response);
-//         return info;
-//     } catch (error) {
-//         console.error("Erro ao enviar e-mail:", error);
-//     }
-// }
+        console.log("E-mail enviado com sucesso:", info.response);
+        return info;
+    } catch (error) {
+        console.error("Erro ao enviar e-mail:", error);
+    }
+}
 
 const GetUsers = (req, res) => {
     db.all(`SELECT * FROM users`, [], (err, rows) => {
@@ -123,6 +123,7 @@ const ForgotPassword = async (req, res) => {
 
             const code = Math.floor(1000 + Math.random() * 9000); // código de 4 dígitos
 
+
             db.run(`UPDATE users SET code = ? WHERE email = ?`, [code, email], function (err) {
                 if (err) {
                     console.error("Erro ao atualizar código no banco: ", err);
@@ -130,11 +131,11 @@ const ForgotPassword = async (req, res) => {
                 }
 
                 console.log("Código gerado:", code);
-                // sendEmailWithPassword(
-                //     email,
-                //     'Clique aqui para mudar sua senha!',
-                //     `Olá!\nPara alterar sua senha no nosso programa de tradução de textos para sons, insira o código abaixo para confirmar sua identidade: \n${code}`
-                // );
+                sendEmailWithPassword(
+                    email,
+                    'Clique aqui para mudar sua senha!',
+                    `Olá!\nPara alterar sua senha no nosso programa de tradução de textos para sons, insira o código abaixo para confirmar sua identidade: \n${code}`
+                );
                 res.status(201).json({ message: "E-mail enviado" });
 
             })})

@@ -1,6 +1,7 @@
 const express = require('express');
 const { GetUsers, SignUp, SignIn, Delete, ForgotPassword, Verify, NewPassword } = require('./users');
 const verifyToken = require('./middleware');
+const { TextToSound, Summarise } = require('./tts');
 const app = express();
 const port = 3000;
 
@@ -23,6 +24,14 @@ app.put('/forgot/password', (req, res)=> ForgotPassword(req, res));
 app.put('/verify/code', (req, res) => Verify(req, res));
 
 app.put('/new/password', (req, res)=> NewPassword(req, res));
+
+app.post('/texttosound', verifyToken, (req, res) => {
+    TextToSound(req, res);
+})
+
+app.post('/summarize', verifyToken, (req, res) => {
+    Summarise(req, res)
+});
 
 app.listen(port, (req, res) => {
     console.log(`Ouvindo na porta http://localhost:${port}`);
