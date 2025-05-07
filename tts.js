@@ -73,4 +73,9 @@ const Summarise = async (req, res) => {
   }
 };
 
+const YourTexts = async (req, res) => {
+  const userId = req.user.id;
+
+}
+
 module.exports = { TextToSound, Summarise }
