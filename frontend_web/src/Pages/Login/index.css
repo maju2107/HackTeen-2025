@@ -1,0 +1,59 @@
+.secao{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #C4AE9E;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#login {
+    width: 30%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #B09A8B;
+    padding: 0 2% 0% 2%;
+    border-radius: .5rem;
+    color: #000;
+}
+
+.input-login {
+    height: 2rem;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+#title {
+    text-align: center;
+}
+
+.go {
+    background-color: #877264;
+    width: 35%;
+    height: 3rem;
+    border: none;
+    border-radius: .5rem;
+    font-weight: 600;
+    color: #000;
+    font-size: large;
+    cursor: pointer;
+    margin: 2% 0 0 0;
+}
+
+#wrong-login {
+    display: none;
+    color: red;
+}
+
+@media (max-width: 480px) {
+    #login {
+        width: 80%;
+    }
+}
