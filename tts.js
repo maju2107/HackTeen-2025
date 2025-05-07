@@ -75,7 +75,10 @@ const Summarise = async (req, res) => {
 
 const YourTexts = async (req, res) => {
   const userId = req.user.id;
-
+ db.all(`SELECT * FROM texts WHERE user_id=?`, [userId], (err, rows) => {
+        console.log("Histórico: ", rows);
+        res.json(rows);
+    });
 }
 
 module.exports = { TextToSound, Summarise }
