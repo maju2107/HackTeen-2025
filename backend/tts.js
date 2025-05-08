@@ -10,7 +10,7 @@ app.use(express.json());
 
 const TextToSound = async (req, res) => {
   const userId = req.user.id; //Pega o id do usuário vindo do verifyToken
-  console.log(userId) 
+  console.log(userId)
   const { text, language } = req.body; //Pega do body
 
   if (!text) { //erro para se não tiver texto
@@ -47,21 +47,21 @@ const Summarise = async (req, res) => {
 
     // Calculate 70% of the original text length
     const targetLength = Math.floor(text.length * 0.6);
-    
+
     // Estimate sentence count needed (assuming ~100 chars per sentence)
     const sentenceCount = Math.max(1, Math.floor(targetLength / 100));
-    
+
     // Get summary
     const summarizer = new SummarizerManager(text, sentenceCount);
     const summary = summarizer.getSummaryByFrequency().summary;
 
     // Save to database (fire-and-forget)
     db.run(
-      `INSERT INTO texts (content, user_id) VALUES (?, ?)`, 
+      `INSERT INTO texts (content, user_id) VALUES (?, ?)`,
       [text, userId]
     );
 
-    return res.status(200).json({summary});
+    return res.status(200).json({ summary });
 
   } catch (error) {
     console.error('Summarization error:', error);
