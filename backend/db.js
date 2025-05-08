@@ -6,7 +6,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 db.serialize(() => {
-  // Create users table
+
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT UNIQUE NOT NULL,
@@ -17,7 +17,7 @@ db.serialize(() => {
     if (err) console.error('Users table error:', err);
   });
 
-  // Create texts table
+
   db.run(`CREATE TABLE IF NOT EXISTS texts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     content TEXT NOT NULL,
