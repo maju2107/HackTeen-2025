@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
 const db = require('./db');
-const SummarizerManager = require('node-summarizer').SummarizerManager; // Correct import
+const SummarizerManager = require('node-summarizer').SummarizerManager; 
 
 const app = express();
 app.use(express.json());
@@ -45,17 +45,13 @@ const Summarise = async (req, res) => {
       return res.status(400).json({ error: 'Valid text not provided.' });
     }
 
-    // Calculate 70% of the original text length
     const targetLength = Math.floor(text.length * 0.6);
 
-    // Estimate sentence count needed (assuming ~100 chars per sentence)
     const sentenceCount = Math.max(1, Math.floor(targetLength / 100));
 
-    // Get summary
     const summarizer = new SummarizerManager(text, sentenceCount);
     const summary = summarizer.getSummaryByFrequency().summary;
 
-    // Save to database (fire-and-forget)
     db.run(
       `INSERT INTO texts (content, user_id) VALUES (?, ?)`,
       [text, userId]
